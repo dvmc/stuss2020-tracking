@@ -25,7 +25,8 @@ def init_db():
         host="localhost",
         user="root",
         password="",
-        database="besuchertracker")
+        database="besuchertracker",
+        autocommit=True)
 
 db = init_db()
 
