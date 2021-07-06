@@ -1,0 +1,1 @@
+added some support for legacy browsers. still missing: full crypto api polyfill for browsers not supporting the web crypto api at all. (i.e. iOS<7, fx<34, chrome<37, ie<11) (TODO?)

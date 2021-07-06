@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="de">
+    <title>Kontaktdatenerfassung +++ StamF 2021</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦆</text></svg>">
+    <style>
+html{box-sizing:border-box;}*{box-sizing:inherit;}
+body{max-width:860px;margin:10px auto;}
+#row{display:flex;flex-wrap:wrap;justify-content:center;margin:1em auto;}
+#row form{width:50%;}
+svg{display:block;padding:10px;}
+#qrout{display:flex;justify-content:center;align-items:center;border:1px gray solid;width:50%;border-radius:5px;min-height:200px;}
+form div{text-align:center;margin:1em 0;}
+input{width:100%;font-size:1.2em;margin:0.3em 0;border-radius:4px;}
+label em{display:block;}
+label em::before,label em::after{content:" – ";}
+@media screen and (max-width:992px){#row form{width:100%;}#qrout{width:100%;}}
+@media print{form{display:none;}}
+</style>
+    <h1>stuss am fluss <span>kontakt­daten­gedöns</span></h1>
+    <noscript><b>ACHTUNG!</b> Du musst JavaScript aktivieren, damit das Ding hier läuft. Momentan ist JavaScript bei dir deaktiviert.</noscript>
+    <div id="info">Tach! Zur Durchführung des Festivals brauchen wir eure Hilfe. Bitte erstellt pro Person einen QR-Code mit euren Daten und zeigt ihn beim jedem Betreten und Verlassen des Geländes vor. Das ist nur zur Kontaktverfolgung gedacht. Der Einlass erfolgt separat. Euren persönlichen QR-Code könnt ihr wahlweise screenshotten, ausdrucken, oder tätowieren. Bitte zeigt ihn jedes Mal vor, wenn ihr das Gelände betretet oder verlasst. Wir sehen uns!</div>
+    <div id="info_en" lang="en">Below you can create your personal QR code. You will have to show it every time when you enter or leave the premises. It is used for tracking purposes only and is not a reservation. Thank you for your cooperation!</div>
+    <div id="row">
+    <form>
+        <div><label for="name">Vollständiger Name</label><input name="name" maxlength="94" required /></div>
+        <div><label for="contact">Telefonnummer <em>oder</em> E-Mail-Adresse</label><input name="contact" maxlength="94" required /></div>
+        <div><input value="QR-Code generieren" type="submit" /></div>
+    </form>
+    <div id="qrout"></div>
+    </div>
+    <a href="entenschutz.html">Datenschutz</a>
+    <script src="qrcode.alnum.min.js"></script>
+    <script>
+var pk_bin = atob("___PKEY___");
+var pk = new Uint8Array(pk_bin.length);
+for(var i=0; i<pk.length; ++i) pk[i] = pk_bin.charCodeAt(i);
+function b45enc(b) {
+    var r = [];
+    var i = 0;
+    while(i+1 < b.length) {
+        var x = (b[i] << 8) | b[i+1];
+        var e = (x/(45*45)) | 0;
+        x = x % (45*45);
+        var d = (x/45) | 0;
+        var c = x%45;
+        r.push(c, d, e);
+        i += 2;
+    }
+    if(i < b.length) {
+        var x = b[i];
+        r.push(x%45, (x/45)|0);
+    }
+    return r;
+}
+function main() {
+    var f = document.forms[0];
+    var o = document.getElementById("qrout");
+    f.addEventListener("submit", function(e) {
+        e.preventDefault();
+        o.innerHTML = "<div>mom<em>entchen</em>...</div>";
+        var t = (new TextEncoder).encode([f.elements.name.value, f.elements.contact.value].join("\t"));
+        var k_ = window.crypto.subtle.importKey("spki", pk, {name:"RSA-OAEP", hash:"SHA-256"}, false, ["encrypt"]);
+        k_.then(function(k){
+            var c_ = window.crypto.subtle.encrypt({name:"RSA-OAEP"}, k, t);
+            c_.then(function(c){
+                var cipher = new Uint8Array(c);
+                var qr = qrcode(0,"H");
+                qr.addData(b45enc(cipher),"Alphanumeric");
+                qr.make();
+                o.innerHTML = qr.createSvgTag();
+            });
+        });
+    });
+}
+var polyfill = {};
+polyfill.te = typeof TextEncoder === "undefined";
+polyfill.promise = typeof Promise === "undefined";
+polyfill.crypto = navigator.userAgent.indexOf("iP") != -1 || !!window.msCrypto;
+var needsPolyfill = polyfill.te || polyfill.promise || polyfill.crypto;
+if(needsPolyfill){
+    var s = document.createElement("script");
+    s.src = "polyfill.js";
+    s.onload = main;
+    document.head.appendChild(s);
+}else{main()}
+    </script>
+</html>
+<!-- https://github.com/snue/stuss-tracking -->

@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+    <head><title>Datenschutz | Stuss am Fluss 2021</title></head>
+    <body>
+        <h1>Datenschutzhinweise</h1> (für die Kontaktdatenregistrierung beim Stuss am Fluss 2021)
+        <h2>Allgemeines</h2>
+        <ul>
+            <li>Wir sind gesetzlich dazu verpflichtet, von allen Gästen und sonstigen Teilnehmenden Kontaktdaten zu erheben (§4 der SARS-CoV-2-UmgV).</li>
+            <li>Zweck dieser Maßnahme ist die Kontaktnachverfolgung zur Eindämmung der COVID-19-Pandemie.</li>
+            <li>Wir speichern zusammenhängend mit dem eingegebenen Daten jeweils das Datum und die Uhrzeit des Betretens bzw. Verlassens des Geländes. Ausschlaggebender Zeitpunkt ist der Scanvorgang des QR-Codes.</li>
+            <li>Im Falle eines bekannt gewordenen COVID-19-Ausbruchs werden die Daten auf Veranlassung des Gesundheitsamts Cottbus an dieses geschickt.</li>
+            <li>Vier Wochen nach Ende des Festivals werden alle Kontaktdaten professionell und unwiderbringlich gelöscht.</li>
+        </ul>
+        <h2>Technische Sicherheit</h2>
+        <ul>
+            <li>Bei der Generierung des QR-Codes werden von unserem Formular keinerlei Daten an unsere oder externe Server geschickt. Die Generierung geschieht vollständig lokal auf dem Endgerät.</li>
+            <li>Die eingegebenen Daten liegen im QR-Code in verschlüsselter Form vor (2048 bit RSA-OAEP). Sie lassen sich damit nicht von Dritten entschlüsseln, jedenfalls voraussichtlich für das laufende Jahrhundert. Das gibt auch für die Person, die diese Daten eingegeben hat. Eine Entschlüsselung der Daten ist nur vor Ort möglich.</li>
+            <li>Beim ersten Check-in am Einlass werden die Daten entschlüsselt und anschließend in eine Datenbank vor Ort geschrieben. Hierbei findet eine Plausibilitätsprüfung durch das Personal statt.</li>
+            <li>Die Datenbank liegt auf einem Computer vor Ort. Dieser verfügt über keinen Internetzugriff, keinen betriebserhaltenden Energiespeicher, und hat einen vollständig verschlüsselten Massenspeicher (Full Disk Encryption). Das Passwort hierfür hat ausreichend Entropie und ist nur einer Person bekannt.</li>
+            <li>Die Entschlüsselung der Daten findet auf dem Computer statt. Daher sind die Daten auch auf der Verbindung zwischen QR-Code-Scanner und der drahtlosen Schnittstelle des Computers geschützt.</li>
+            <li><em>Restrisiken zur unbefugten Entwendung der Daten durch Dritte:</em> Der durchgehend bewachte Computer müsste ohne Unterbrechung der Stromzufuhr entwendet werden, damit personenbezogene Daten unbeabsichtigt nach draußen gelangen. Denkbar ist auch die Ausnutzung einer noch unbekannten Sicherheitslücke (sog. Zero-Day) der drahtlosen Schnittstelle zwischen Computer und QR-Code-Scannern während des laufenden Betriebs.</li>
+        </ul>
+        <a href=".">zurück zum QR-Code-Generierungs-Interface</a>
+    </body>
+</html>
