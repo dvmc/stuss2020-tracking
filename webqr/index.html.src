@@ -19,8 +19,8 @@ label em::before,label em::after{content:" – ";}
 </style>
     <h1>stuss am fluss <span>kontakt­daten­gedöns</span></h1>
     <noscript><b>ACHTUNG!</b> Du musst JavaScript aktivieren, damit das Ding hier läuft. Momentan ist JavaScript bei dir deaktiviert.</noscript>
-    <div id="info">Tach! Zur Durchführung des Festivals brauchen wir eure Hilfe. Bitte erstellt pro Person einen QR-Code mit euren Daten und zeigt ihn beim jedem Betreten und Verlassen des Geländes vor. Das ist nur zur Kontaktverfolgung gedacht. Der Einlass erfolgt separat. Euren persönlichen QR-Code könnt ihr wahlweise screenshotten, ausdrucken, oder tätowieren. Bitte zeigt ihn jedes Mal vor, wenn ihr das Gelände betretet oder verlasst. Wir sehen uns!</div>
-    <div id="info_en" lang="en">Below you can create your personal QR code. You will have to show it every time when you enter or leave the premises. It is used for tracking purposes only and is not a reservation. Thank you for your cooperation!</div>
+    <div id="info">Tach! Zur Durchführung des Festivals brauchen wir eure Hilfe. Bitte erstellt pro Person einen QR-Code mit euren Daten und zeigt ihn bei jedem Betreten und Verlassen des Geländes vor. Es wird zur Kontaktverfolgung sowie Gästezählung genutzt. Der Einlass (oder auch eine eventuelle Reservierung) erfolgt separat. Euren persönlichen QR-Code könnt ihr wahlweise screenshotten, ausdrucken, oder tätowieren.</div>
+    <div id="info_en" lang="en">Below you can create your personal QR code. You will have to show it every time when you enter or leave the premises. It is used for contact tracking purposes and counting purposes only and is not a reservation. Thank you for your cooperation!</div>
     <div id="row">
     <form>
         <div><label for="name">Vollständiger Name</label><input name="name" maxlength="94" required /></div>
@@ -53,13 +53,16 @@ function b45enc(b) {
     }
     return r;
 }
+function dbg(reason) {
+    document.getElementById("d").innerHTML="<em>Ups...</em> "+reason;
+}
 function main() {
     var f = document.forms[0];
     var o = document.getElementById("qrout");
     f.addEventListener("submit", function(e) {
         e.preventDefault();
-        o.innerHTML = "<div>mom<em>entchen</em>...</div>";
-        var t = (new TextEncoder).encode([f.elements.name.value, f.elements.contact.value].join("\t"));
+        o.innerHTML = "<div id='d'>mom<em>entchen</em>...</div>";
+        var t = (new TextEncoder).encode([f.elements.name.value, f.elements.contact.value.replace(/\s+/g,"")].join("\t"));
         var k_ = window.crypto.subtle.importKey("spki", pk, {name:"RSA-OAEP", hash:"SHA-256"}, false, ["encrypt"]);
         k_.then(function(k){
             var c_ = window.crypto.subtle.encrypt({name:"RSA-OAEP"}, k, t);
@@ -69,8 +72,8 @@ function main() {
                 qr.addData(b45enc(cipher),"Alphanumeric");
                 qr.make();
                 o.innerHTML = qr.createSvgTag();
-            });
-        });
+            },dbg);
+        },dbg);
     });
 }
 var polyfill = {};
